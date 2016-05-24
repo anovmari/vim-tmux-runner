@@ -18,11 +18,11 @@ endfunction
 function! s:CreateRunnerPane(...)
     if exists("a:1")
         let s:vtr_orientation = s:DictFetch(a:1, 'orientation', s:vtr_orientation)
-        let s:vtr_percentage = s:DictFetch(a:1, 'percentage', s:vtr_percentage)
+        let s:vtr_lines = s:DictFetch(a:1, 'lines', s:vtr_lines)
         let g:VtrInitialCommand = s:DictFetch(a:1, 'cmd', g:VtrInitialCommand)
     endif
     let s:vim_pane = s:ActivePaneIndex()
-    let cmd = join(["split-window -p", s:vtr_percentage, "-".s:vtr_orientation])
+    let cmd = join(["split-window -l", s:vtr_lines, "-".s:vtr_orientation])
     call s:SendTmuxCommand(cmd)
     let s:runner_pane = s:ActivePaneIndex()
     call s:FocusVimPane()
@@ -215,7 +215,7 @@ function! s:BreakRunnerPaneToTempWindow()
 endfunction
 
 function! s:RunnerDimensionSpec()
-    let dimensions = join(["-p", s:vtr_percentage, "-".s:vtr_orientation])
+    let dimensions = join(["-l", s:vtr_lines, "-".s:vtr_orientation])
     return dimensions
 endfunction
 
@@ -488,7 +488,7 @@ function! s:InitializeVariables()
     call s:InitVariable("g:VtrStripLeadingWhitespace", 1)
     call s:InitVariable("g:VtrClearEmptyLines", 1)
     call s:InitVariable("g:VtrAppendNewline", 0)
-    let s:vtr_percentage = g:VtrPercentage
+    let s:vtr_lines = g:VtrLines
     let s:vtr_orientation = g:VtrOrientation
 endfunction
 
